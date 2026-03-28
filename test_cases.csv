@@ -1,95 +1,38 @@
-date,category,valid,source
-29/02/1900,Boundary_Century,False,GA
-31/12/9999,Boundary_MaxDate,True,GA
-29/02/2020,Boundary_MaxLeapYear,True,GA
-01/01/0000,Boundary_MinDate,True,GA
-31/06/2068,Invalid_30DayMonthDay,False,GA
-31/06/1901,Invalid_30DayMonthDay,False,GA
-32/01/1900,Invalid_DayOver31,False,GA
-32/12/2020,Invalid_DayOver31,False,GA
-32/06/2068,Invalid_DayOver31,False,GA
-32/03/2111,Invalid_DayOver31,False,GA
-32/01/1918,Invalid_DayOver31,False,GA
-32/02/2068,Invalid_DayOver31,False,GA
-32/01/1972,Invalid_DayOver31,False,GA
-32/02/2020,Invalid_DayOver31,False,GA
-00/01/2023,Invalid_DayUnder1,False,GA
-00/02/2020,Invalid_DayUnder1,False,GA
-00/06/0000,Invalid_DayUnder1,False,GA
-00/03/1954,Invalid_DayUnder1,False,GA
-00/02/1985,Invalid_DayUnder1,False,GA
-00/05/0000,Invalid_DayUnder1,False,GA
-31/02/2020,Invalid_FebOver29,False,GA
-31/02/1892,Invalid_FebOver29,False,GA
-31/02/1901,Invalid_FebOver29,False,GA
-31/02/1882,Invalid_FebOver29,False,GA
-31/02/2132,Invalid_FebOver29,False,GA
-30/02/2023,Invalid_FebOver29,False,GA
-31/02/1972,Invalid_FebOver29,False,GA
-31/02/1939,Invalid_FebOver29,False,GA
-00/13/1980,Invalid_MonthOver12,False,GA
-31/13/2020,Invalid_MonthOver12,False,GA
-32/13/1980,Invalid_MonthOver12,False,GA
-29/13/1980,Invalid_MonthOver12,False,GA
-31/13/2023,Invalid_MonthOver12,False,GA
-29/13/0069,Invalid_MonthOver12,False,GA
-31/13/2068,Invalid_MonthOver12,False,GA
-10/13/2023,Invalid_MonthOver12,False,GA
-32/13/2002,Invalid_MonthOver12,False,GA
-32/13/2020,Invalid_MonthOver12,False,GA
-32/00/2087,Invalid_MonthUnder1,False,GA
-29/02/1887,Invalid_NonLeapFeb29,False,GA
-29/02/2023,Invalid_NonLeapFeb29,False,GA
-29/02/2021,Invalid_NonLeapFeb29,False,GA
-29/02/1901,Invalid_NonLeapFeb29,False,GA
-29/02/2033,Invalid_NonLeapFeb29,False,GA
-30/06/2020,Valid_30DayMonth,True,GA
-29/06/1900,Valid_30DayMonth,True,GA
-27/04/2121,Valid_30DayMonth,True,GA
-26/06/2230,Valid_30DayMonth,True,GA
-29/06/2230,Valid_30DayMonth,True,GA
-04/01/2020,Valid_31DayMonth,True,GA
-29/03/1900,Valid_31DayMonth,True,GA
-29/01/2092,Valid_31DayMonth,True,GA
-29/03/2123,Valid_31DayMonth,True,GA
-29/03/2041,Valid_31DayMonth,True,GA
-01/01/1980,Valid_31DayMonth,True,GA
-29/01/2004,Valid_31DayMonth,True,GA
-30/03/2023,Valid_31DayMonth,True,GA
-01/01/1972,Valid_31DayMonth,True,GA
-29/12/2020,Valid_31DayMonth,True,GA
-03/01/1900,Valid_31DayMonth,True,GA
-29/03/2020,Valid_31DayMonth,True,GA
-26/07/1969,Valid_31DayMonth,True,GA
-30/01/1970,Valid_31DayMonth,True,GA
-27/03/2023,Valid_31DayMonth,True,GA
-31/03/1972,Valid_31DayMonth,True,GA
-31/03/1901,Valid_31DayMonth,True,GA
-29/02/0000,Valid_LeapYear,True,GA
-29/02/2004,Valid_LeapYear,True,GA
-29/02/1972,Valid_LeapYear,True,GA
-27/02/2087,Valid_NonLeapFeb,True,GA
-28/02/1901,Valid_NonLeapFeb,True,GA
-27/02/2020,Valid_NonLeapFeb,True,GA
-01/02/1995,Valid_NonLeapFeb,True,GA
-26/02/2020,Valid_NonLeapFeb,True,GA
-27/02/2068,Valid_NonLeapFeb,True,GA
-26/02/2125,Valid_NonLeapFeb,True,GA
-27/02/1894,Valid_NonLeapFeb,True,GA
-28/02/2019,Valid_NonLeapFeb,True,seeded
-30/04/2023,Valid_30DayMonth,True,seeded
-31/01/2023,Valid_31DayMonth,True,seeded
-15/05/2023,Valid_31DayMonth,True,seeded
-30/06/2023,Valid_30DayMonth,True,seeded
-29/02/2000,Valid_LeapYear,True,seeded
-28/02/1900,Valid_NonLeapFeb,True,seeded
-31/10/2023,Valid_31DayMonth,True,seeded
-30/09/2023,Valid_30DayMonth,True,seeded
-31/04/2023,Invalid_30DayMonthDay,False,seeded
-32/01/2023,Invalid_DayOver31,False,seeded
-31/06/2023,Invalid_30DayMonthDay,False,seeded
-32/12/2023,Invalid_DayOver31,False,seeded
-01/00/2023,Invalid_MonthUnder1,False,seeded
-31/11/2023,Invalid_30DayMonthDay,False,seeded
-01/01/9999,Valid_31DayMonth,True,seeded
-31/12/0000,Valid_31DayMonth,True,seeded
+date,type,categories,is_valid
+10/08/2023,Valid,Valid_General,True
+15/05/2023,Valid,Valid_General,True
+31/03/2023,Valid,Valid_31DayMonth; Boundary_Day31,True
+31/01/2023,Valid,Valid_31DayMonth; Boundary_Month1; Boundary_Day31,True
+30/06/2023,Valid,Valid_30DayMonth,True
+30/04/2023,Valid,Valid_30DayMonth,True
+28/02/1900,Valid,Valid_February_NonLeap,True
+29/02/2000,Valid,Valid_LeapYear,True
+31/12/2023,Valid,Valid_31DayMonth; Boundary_Month12; Boundary_Day31,True
+01/01/2023,Valid,Valid_General; Boundary_Day1; Boundary_Month1,True
+29/02/2020,Valid,Valid_LeapYear,True
+28/02/2023,Valid,Valid_February_NonLeap,True
+27/04/2023,Valid,Valid_30DayMonth,True
+28/02/2021,Valid,Valid_February_NonLeap,True
+15/00/2023,Invalid,Invalid_MonthZero,False
+00/05/2023,Invalid,Invalid_DayZero,False
+31/06/2023,Invalid,Invalid_Day31In30DayMonth,False
+31/11/2023,Invalid,Invalid_Day31In30DayMonth,False
+30/02/2023,Invalid,Invalid_Feb30,False
+32/05/2023,Invalid,Invalid_DayOver31,False
+13/15/2023,Invalid,Invalid_MonthOver12,False
+29/02/2021,Invalid,Invalid_NonLeapFeb29,False
+31/02/2020,Invalid,Invalid_Feb30,False
+33/04/1923,Invalid,Invalid_DayOver31,False
+00/03/2020,Invalid,Invalid_DayZero,False
+29/13/6816,Invalid,Invalid_MonthOver12,False
+30/00/0000,Invalid,Boundary_MinYear; Invalid_MonthZero,False
+01/01/0000,Boundary,Valid_General; Boundary_Day1; Boundary_Month1; Boundary_MinYear,True
+31/12/9999,Boundary,Valid_31DayMonth; Boundary_Month12; Boundary_MaxYear; Boundary_Day31,True
+28/12/9999,Boundary,Valid_General; Boundary_Month12; Boundary_MaxYear,True
+28/01/2021,Boundary,Valid_General; Boundary_Month1,True
+30/12/9999,Boundary,Valid_General; Boundary_Month12; Boundary_MaxYear,True
+30/12/9899,Boundary,Valid_General; Boundary_Month12,True
+29/11/9999,Boundary,Valid_30DayMonth; Boundary_MaxYear,True
+31/03/2020,Boundary,Valid_31DayMonth; Boundary_Day31,True
+30/01/1820,Boundary,Valid_General; Boundary_Month1,True
+26/01/1820,Boundary,Valid_General; Boundary_Month1,True

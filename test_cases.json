@@ -1,472 +1,276 @@
-[
-  {
-    "date": "29/02/1900",
-    "category": "Boundary_Century",
-    "valid": false
-  },
-  {
-    "date": "31/12/9999",
-    "category": "Boundary_MaxDate",
-    "valid": true
-  },
-  {
-    "date": "29/02/2020",
-    "category": "Boundary_MaxLeapYear",
-    "valid": true
-  },
-  {
-    "date": "01/01/0000",
-    "category": "Boundary_MinDate",
-    "valid": true
-  },
-  {
-    "date": "31/06/2068",
-    "category": "Invalid_30DayMonthDay",
-    "valid": false
-  },
-  {
-    "date": "31/06/1901",
-    "category": "Invalid_30DayMonthDay",
-    "valid": false
-  },
-  {
-    "date": "32/01/1900",
-    "category": "Invalid_DayOver31",
-    "valid": false
-  },
-  {
-    "date": "32/12/2020",
-    "category": "Invalid_DayOver31",
-    "valid": false
-  },
-  {
-    "date": "32/06/2068",
-    "category": "Invalid_DayOver31",
-    "valid": false
-  },
-  {
-    "date": "32/03/2111",
-    "category": "Invalid_DayOver31",
-    "valid": false
-  },
-  {
-    "date": "32/01/1918",
-    "category": "Invalid_DayOver31",
-    "valid": false
-  },
-  {
-    "date": "32/02/2068",
-    "category": "Invalid_DayOver31",
-    "valid": false
-  },
-  {
-    "date": "32/01/1972",
-    "category": "Invalid_DayOver31",
-    "valid": false
-  },
-  {
-    "date": "32/02/2020",
-    "category": "Invalid_DayOver31",
-    "valid": false
-  },
-  {
-    "date": "00/01/2023",
-    "category": "Invalid_DayUnder1",
-    "valid": false
-  },
-  {
-    "date": "00/02/2020",
-    "category": "Invalid_DayUnder1",
-    "valid": false
-  },
-  {
-    "date": "00/06/0000",
-    "category": "Invalid_DayUnder1",
-    "valid": false
-  },
-  {
-    "date": "00/03/1954",
-    "category": "Invalid_DayUnder1",
-    "valid": false
-  },
-  {
-    "date": "00/02/1985",
-    "category": "Invalid_DayUnder1",
-    "valid": false
-  },
-  {
-    "date": "00/05/0000",
-    "category": "Invalid_DayUnder1",
-    "valid": false
-  },
-  {
-    "date": "31/02/2020",
-    "category": "Invalid_FebOver29",
-    "valid": false
-  },
-  {
-    "date": "31/02/1892",
-    "category": "Invalid_FebOver29",
-    "valid": false
-  },
-  {
-    "date": "31/02/1901",
-    "category": "Invalid_FebOver29",
-    "valid": false
-  },
-  {
-    "date": "31/02/1882",
-    "category": "Invalid_FebOver29",
-    "valid": false
-  },
-  {
-    "date": "31/02/2132",
-    "category": "Invalid_FebOver29",
-    "valid": false
-  },
-  {
-    "date": "30/02/2023",
-    "category": "Invalid_FebOver29",
-    "valid": false
-  },
-  {
-    "date": "31/02/1972",
-    "category": "Invalid_FebOver29",
-    "valid": false
-  },
-  {
-    "date": "31/02/1939",
-    "category": "Invalid_FebOver29",
-    "valid": false
-  },
-  {
-    "date": "00/13/1980",
-    "category": "Invalid_MonthOver12",
-    "valid": false
-  },
-  {
-    "date": "31/13/2020",
-    "category": "Invalid_MonthOver12",
-    "valid": false
-  },
-  {
-    "date": "32/13/1980",
-    "category": "Invalid_MonthOver12",
-    "valid": false
-  },
-  {
-    "date": "29/13/1980",
-    "category": "Invalid_MonthOver12",
-    "valid": false
-  },
-  {
-    "date": "31/13/2023",
-    "category": "Invalid_MonthOver12",
-    "valid": false
-  },
-  {
-    "date": "29/13/0069",
-    "category": "Invalid_MonthOver12",
-    "valid": false
-  },
-  {
-    "date": "31/13/2068",
-    "category": "Invalid_MonthOver12",
-    "valid": false
-  },
-  {
-    "date": "10/13/2023",
-    "category": "Invalid_MonthOver12",
-    "valid": false
-  },
-  {
-    "date": "32/13/2002",
-    "category": "Invalid_MonthOver12",
-    "valid": false
-  },
-  {
-    "date": "32/13/2020",
-    "category": "Invalid_MonthOver12",
-    "valid": false
-  },
-  {
-    "date": "32/00/2087",
-    "category": "Invalid_MonthUnder1",
-    "valid": false
-  },
-  {
-    "date": "29/02/1887",
-    "category": "Invalid_NonLeapFeb29",
-    "valid": false
-  },
-  {
-    "date": "29/02/2023",
-    "category": "Invalid_NonLeapFeb29",
-    "valid": false
-  },
-  {
-    "date": "29/02/2021",
-    "category": "Invalid_NonLeapFeb29",
-    "valid": false
-  },
-  {
-    "date": "29/02/1901",
-    "category": "Invalid_NonLeapFeb29",
-    "valid": false
-  },
-  {
-    "date": "29/02/2033",
-    "category": "Invalid_NonLeapFeb29",
-    "valid": false
-  },
-  {
-    "date": "30/06/2020",
-    "category": "Valid_30DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/06/1900",
-    "category": "Valid_30DayMonth",
-    "valid": true
-  },
-  {
-    "date": "27/04/2121",
-    "category": "Valid_30DayMonth",
-    "valid": true
-  },
-  {
-    "date": "26/06/2230",
-    "category": "Valid_30DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/06/2230",
-    "category": "Valid_30DayMonth",
-    "valid": true
-  },
-  {
-    "date": "04/01/2020",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/03/1900",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/01/2092",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/03/2123",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/03/2041",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "01/01/1980",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/01/2004",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "30/03/2023",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "01/01/1972",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/12/2020",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "03/01/1900",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/03/2020",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "26/07/1969",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "30/01/1970",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "27/03/2023",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "31/03/1972",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "31/03/1901",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/02/0000",
-    "category": "Valid_LeapYear",
-    "valid": true
-  },
-  {
-    "date": "29/02/2004",
-    "category": "Valid_LeapYear",
-    "valid": true
-  },
-  {
-    "date": "29/02/1972",
-    "category": "Valid_LeapYear",
-    "valid": true
-  },
-  {
-    "date": "27/02/2087",
-    "category": "Valid_NonLeapFeb",
-    "valid": true
-  },
-  {
-    "date": "28/02/1901",
-    "category": "Valid_NonLeapFeb",
-    "valid": true
-  },
-  {
-    "date": "27/02/2020",
-    "category": "Valid_NonLeapFeb",
-    "valid": true
-  },
-  {
-    "date": "01/02/1995",
-    "category": "Valid_NonLeapFeb",
-    "valid": true
-  },
-  {
-    "date": "26/02/2020",
-    "category": "Valid_NonLeapFeb",
-    "valid": true
-  },
-  {
-    "date": "27/02/2068",
-    "category": "Valid_NonLeapFeb",
-    "valid": true
-  },
-  {
-    "date": "26/02/2125",
-    "category": "Valid_NonLeapFeb",
-    "valid": true
-  },
-  {
-    "date": "27/02/1894",
-    "category": "Valid_NonLeapFeb",
-    "valid": true
-  },
-  {
-    "date": "28/02/2019",
-    "category": "Valid_NonLeapFeb",
-    "valid": true
-  },
-  {
-    "date": "30/04/2023",
-    "category": "Valid_30DayMonth",
-    "valid": true
-  },
-  {
-    "date": "31/01/2023",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "15/05/2023",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "30/06/2023",
-    "category": "Valid_30DayMonth",
-    "valid": true
-  },
-  {
-    "date": "29/02/2000",
-    "category": "Valid_LeapYear",
-    "valid": true
-  },
-  {
-    "date": "28/02/1900",
-    "category": "Valid_NonLeapFeb",
-    "valid": true
-  },
-  {
-    "date": "31/10/2023",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "30/09/2023",
-    "category": "Valid_30DayMonth",
-    "valid": true
-  },
-  {
-    "date": "31/04/2023",
-    "category": "Invalid_30DayMonthDay",
-    "valid": false
-  },
-  {
-    "date": "32/01/2023",
-    "category": "Invalid_DayOver31",
-    "valid": false
-  },
-  {
-    "date": "31/06/2023",
-    "category": "Invalid_30DayMonthDay",
-    "valid": false
-  },
-  {
-    "date": "32/12/2023",
-    "category": "Invalid_DayOver31",
-    "valid": false
-  },
-  {
-    "date": "01/00/2023",
-    "category": "Invalid_MonthUnder1",
-    "valid": false
-  },
-  {
-    "date": "31/11/2023",
-    "category": "Invalid_30DayMonthDay",
-    "valid": false
-  },
-  {
-    "date": "01/01/9999",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  },
-  {
-    "date": "31/12/0000",
-    "category": "Valid_31DayMonth",
-    "valid": true
-  }
-]
+{
+  "valid_test_cases": [
+    {
+      "date": "10/08/2023",
+      "categories": [
+        "Valid_General"
+      ]
+    },
+    {
+      "date": "15/05/2023",
+      "categories": [
+        "Valid_General"
+      ]
+    },
+    {
+      "date": "31/03/2023",
+      "categories": [
+        "Valid_31DayMonth",
+        "Boundary_Day31"
+      ]
+    },
+    {
+      "date": "31/01/2023",
+      "categories": [
+        "Valid_31DayMonth",
+        "Boundary_Month1",
+        "Boundary_Day31"
+      ]
+    },
+    {
+      "date": "30/06/2023",
+      "categories": [
+        "Valid_30DayMonth"
+      ]
+    },
+    {
+      "date": "30/04/2023",
+      "categories": [
+        "Valid_30DayMonth"
+      ]
+    },
+    {
+      "date": "28/02/1900",
+      "categories": [
+        "Valid_February_NonLeap"
+      ]
+    },
+    {
+      "date": "29/02/2000",
+      "categories": [
+        "Valid_LeapYear"
+      ]
+    },
+    {
+      "date": "31/12/2023",
+      "categories": [
+        "Valid_31DayMonth",
+        "Boundary_Month12",
+        "Boundary_Day31"
+      ]
+    },
+    {
+      "date": "01/01/2023",
+      "categories": [
+        "Valid_General",
+        "Boundary_Day1",
+        "Boundary_Month1"
+      ]
+    },
+    {
+      "date": "29/02/2020",
+      "categories": [
+        "Valid_LeapYear"
+      ]
+    },
+    {
+      "date": "28/02/2023",
+      "categories": [
+        "Valid_February_NonLeap"
+      ]
+    },
+    {
+      "date": "27/04/2023",
+      "categories": [
+        "Valid_30DayMonth"
+      ]
+    },
+    {
+      "date": "28/02/2021",
+      "categories": [
+        "Valid_February_NonLeap"
+      ]
+    }
+  ],
+  "invalid_test_cases": [
+    {
+      "date": "15/00/2023",
+      "categories": [
+        "Invalid_MonthZero"
+      ]
+    },
+    {
+      "date": "00/05/2023",
+      "categories": [
+        "Invalid_DayZero"
+      ]
+    },
+    {
+      "date": "31/06/2023",
+      "categories": [
+        "Invalid_Day31In30DayMonth"
+      ]
+    },
+    {
+      "date": "31/11/2023",
+      "categories": [
+        "Invalid_Day31In30DayMonth"
+      ]
+    },
+    {
+      "date": "30/02/2023",
+      "categories": [
+        "Invalid_Feb30"
+      ]
+    },
+    {
+      "date": "32/05/2023",
+      "categories": [
+        "Invalid_DayOver31"
+      ]
+    },
+    {
+      "date": "13/15/2023",
+      "categories": [
+        "Invalid_MonthOver12"
+      ]
+    },
+    {
+      "date": "29/02/2021",
+      "categories": [
+        "Invalid_NonLeapFeb29"
+      ]
+    },
+    {
+      "date": "31/02/2020",
+      "categories": [
+        "Invalid_Feb30"
+      ]
+    },
+    {
+      "date": "33/04/1923",
+      "categories": [
+        "Invalid_DayOver31"
+      ]
+    },
+    {
+      "date": "00/03/2020",
+      "categories": [
+        "Invalid_DayZero"
+      ]
+    },
+    {
+      "date": "29/13/6816",
+      "categories": [
+        "Invalid_MonthOver12"
+      ]
+    },
+    {
+      "date": "30/00/0000",
+      "categories": [
+        "Boundary_MinYear",
+        "Invalid_MonthZero"
+      ]
+    }
+  ],
+  "boundary_test_cases": [
+    {
+      "date": "31/12/2023",
+      "categories": [
+        "Valid_31DayMonth",
+        "Boundary_Month12",
+        "Boundary_Day31"
+      ]
+    },
+    {
+      "date": "01/01/2023",
+      "categories": [
+        "Valid_General",
+        "Boundary_Day1",
+        "Boundary_Month1"
+      ]
+    },
+    {
+      "date": "29/02/2020",
+      "categories": [
+        "Valid_LeapYear"
+      ]
+    },
+    {
+      "date": "01/01/0000",
+      "categories": [
+        "Valid_General",
+        "Boundary_Day1",
+        "Boundary_Month1",
+        "Boundary_MinYear"
+      ]
+    },
+    {
+      "date": "31/12/9999",
+      "categories": [
+        "Valid_31DayMonth",
+        "Boundary_Month12",
+        "Boundary_MaxYear",
+        "Boundary_Day31"
+      ]
+    },
+    {
+      "date": "28/12/9999",
+      "categories": [
+        "Valid_General",
+        "Boundary_Month12",
+        "Boundary_MaxYear"
+      ]
+    },
+    {
+      "date": "28/01/2021",
+      "categories": [
+        "Valid_General",
+        "Boundary_Month1"
+      ]
+    },
+    {
+      "date": "30/12/9999",
+      "categories": [
+        "Valid_General",
+        "Boundary_Month12",
+        "Boundary_MaxYear"
+      ]
+    },
+    {
+      "date": "30/12/9899",
+      "categories": [
+        "Valid_General",
+        "Boundary_Month12"
+      ]
+    },
+    {
+      "date": "29/11/9999",
+      "categories": [
+        "Valid_30DayMonth",
+        "Boundary_MaxYear"
+      ]
+    },
+    {
+      "date": "31/03/2020",
+      "categories": [
+        "Valid_31DayMonth",
+        "Boundary_Day31"
+      ]
+    },
+    {
+      "date": "30/01/1820",
+      "categories": [
+        "Valid_General",
+        "Boundary_Month1"
+      ]
+    },
+    {
+      "date": "26/01/1820",
+      "categories": [
+        "Valid_General",
+        "Boundary_Month1"
+      ]
+    }
+  ]
+}
