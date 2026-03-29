@@ -1,27 +1,3 @@
-"""
-============================================================
-Assignment 2: Genetic Algorithm for Automated Test Case Generation
-Course  : Search Based Software Engineering, Spring 2026
-Due Date: 29th March 2026
-------------------------------------------------------------
-Objective:
-    Design and implement a Genetic Algorithm (GA) to automatically
-    generate test cases for a Date Validation Function.
-    Goal: maximise test coverage by evolving inputs that validate
-    all valid and invalid date scenarios, including edge cases and
-    boundary values.
-------------------------------------------------------------
-GA Components implemented (exactly as specified):
-    - Chromosome  : tuple (day, month, year)
-    - Init        : day ∈ [1-31], month ∈ [1-12], year ∈ [0000-9999]
-    - Fitness     : unique_categories / (1 + redundant_cases)
-    - Selection   : Rank-based selection
-    - Crossover   : Segment swap (day | month+year)
-    - Mutation    : day ±3, month ±1, year ±100 at 15% probability
-    - Termination : 100 generations OR 95% coverage (whichever first)
-============================================================
-"""
-
 import re
 import random
 import csv
@@ -29,28 +5,15 @@ import json
 from collections import Counter
 
 
-# ============================================================
-# SECTION 1 — DATE VALIDATION FUNCTION
-# (Provided in the assignment — not modified)
-# ============================================================
+# DATE VALIDATION FUNCTION
 
 def is_valid_date(date_str):
-    """
-    Validate a date string in DD/MM/YYYY format.
-    Returns True if the date is a real calendar date, False otherwise.
-
-    Rules applied:
-      - Format must be exactly DD/MM/YYYY (two-digit day and month).
-      - Year range  : 0000 – 9999.
-      - Month range : 01 – 12.
-      - Day range   : 01 – 28/29/30/31 depending on month and leap year.
-      - Leap year   : divisible by 4 AND (not by 100 OR divisible by 400).
-    """
-    # ── Step 1: Check format (DD/MM/YYYY) ──────────────────────
+    
+    # Check format (DD/MM/YYYY) 
     if not re.match(r"^\d{2}/\d{2}/\d{4}$", date_str):
         return False
 
-    # ── Step 2: Parse components ────────────────────────────────
+    # Parse components 
     day_str, month_str, year_str = date_str.split("/")
     try:
         day   = int(day_str)
@@ -59,24 +22,24 @@ def is_valid_date(date_str):
     except ValueError:
         return False     # Non-integer values
 
-    # ── Step 3: Validate year range ─────────────────────────────
+    #  Validate year range 
     if year < 0 or year > 9999:
         return False
 
-    # ── Step 4: Validate month range ────────────────────────────
+    #  Validate month range 
     if month < 1 or month > 12:
         return False
 
-    # ── Step 5: Validate day (must be at least 1) ───────────────
+    #  Validate day (must be at least 1) 
     if day < 1:
         return False
 
-    # ── Step 6: Days-per-month logic ────────────────────────────
+    #  Days-per-month logic 
     if month in [4, 6, 9, 11] and day > 30:
         return False                    # 30-day months
 
     elif month == 2:
-        # Gregorian leap-year rule
+        # leap-year rule
         is_leap = (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
         max_day = 29 if is_leap else 28
         if day > max_day:
@@ -88,21 +51,19 @@ def is_valid_date(date_str):
     return True
 
 
-# ============================================================
-# SECTION 2 — EQUIVALENCE CLASSES (TARGET CATEGORIES)
-# ============================================================
-# The GA tries to produce at least one test case per category.
-# 18 categories total: 5 valid + 7 invalid + 6 boundary.
+# EQUIVALENCE CLASSES (TARGET CATEGORIES)
+# The GA tries to produce at least one test case per category
+# 18 categories total: 5 valid + 7 invalid + 6 boundary
 
 ALL_CATEGORIES = [
-    # ── Valid categories ────────────────────────────────
+    #  Valid categories 
     "Valid_LeapYear",            # 29/02 in a leap year              e.g. 29/02/2020
     "Valid_30DayMonth",          # Valid date in Apr/Jun/Sep/Nov      e.g. 30/04/2023
     "Valid_31DayMonth",          # day = 31 in a 31-day month         e.g. 31/01/2023
     "Valid_February_NonLeap",    # 28/02 in a non-leap year           e.g. 28/02/2023
     "Valid_General",             # Any other ordinary valid date      e.g. 15/05/2023
 
-    # ── Invalid categories ──────────────────────────────
+    #  Invalid categories 
     "Invalid_DayOver31",         # day > 31 for any month            e.g. 32/05/2023
     "Invalid_MonthOver12",       # month > 12                        e.g. 13/15/2023
     "Invalid_NonLeapFeb29",      # 29/02 in a non-leap year          e.g. 29/02/2021
@@ -111,7 +72,7 @@ ALL_CATEGORIES = [
     "Invalid_DayZero",           # day = 0                           e.g. 00/05/2023
     "Invalid_MonthZero",         # month = 0                         e.g. 15/00/2023
 
-    # ── Boundary categories ─────────────────────────────
+    #  Boundary categories 
     "Boundary_MinYear",          # year = 0000                       e.g. 01/01/0000
     "Boundary_MaxYear",          # year = 9999                       e.g. 31/12/9999
     "Boundary_Day1",             # day = 1 (minimum day)             e.g. 01/05/2023
@@ -124,18 +85,12 @@ TOTAL_CATEGORIES = len(ALL_CATEGORIES)   # 18
 
 
 def get_category(day, month, year):
-    """
-    Return the list of ALL category labels that apply to (day, month, year).
-
-    A single chromosome can satisfy multiple categories simultaneously
-    (e.g. 31/12/9999 covers Boundary_MaxYear, Boundary_Day31,
-    Boundary_Month12 AND Valid_31DayMonth).
-    """
+   
     categories = []
     date_str   = f"{day:02d}/{month:02d}/{year:04d}"
     valid      = is_valid_date(date_str)
 
-    # ── Boundary checks (independent of validity) ───────────────
+    #  Boundary checks (independent of validity) 
     if year == 0:
         categories.append("Boundary_MinYear")
     if year == 9999:
@@ -149,7 +104,7 @@ def get_category(day, month, year):
     if month == 12:
         categories.append("Boundary_Month12")
 
-    # ── Valid sub-categories ─────────────────────────────────────
+    #  Valid sub-categories 
     if valid:
         is_leap = (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
 
@@ -164,7 +119,7 @@ def get_category(day, month, year):
         else:
             categories.append("Valid_General")
 
-    # ── Invalid sub-categories ───────────────────────────────────
+    #  Invalid sub-categories 
     else:
         if month < 1:
             categories.append("Invalid_MonthZero")
@@ -191,22 +146,10 @@ def get_category(day, month, year):
     return list(set(categories))
 
 
-# ============================================================
-# SECTION 3 — CHROMOSOME REPRESENTATION
-# ============================================================
+# CHROMOSOME REPRESENTATION
 
 def random_chromosome():
-    """
-    Generate one random chromosome as a tuple (day, month, year).
-
-    Ranges per assignment specification:
-      day   ∈ [1, 31]
-      month ∈ [1, 12]
-      year  ∈ [0, 9999]
-
-    Note: mutation can push values slightly outside these ranges to
-    reach invalid-date equivalence classes (e.g. day=0, month=13).
-    """
+  
     day   = random.randint(1, 31)
     month = random.randint(1, 12)
     year  = random.randint(0, 9999)
@@ -219,32 +162,13 @@ def chromosome_to_str(chrom):
     return f"{day:02d}/{month:02d}/{year:04d}"
 
 
-# ============================================================
-# SECTION 4 — FITNESS FUNCTION
-# ============================================================
-# Exact formula from assignment:
-#   Fitness = (Number of unique categories covered)
-#             / (1 + Number of redundant cases)
+# FITNESS FUNCTION
 
 def fitness_function(population):
-    """
-    Compute fitness for every chromosome in the population.
-
-    Algorithm:
-      1. Evaluate categories for every chromosome.
-      2. Walk through the population in order; track which categories
-         have already been covered globally.
-      3. For each chromosome:
-           unique_covered = categories it adds that weren't covered yet
-           redundant      = its categories already covered by earlier ones
-           fitness        = unique_covered / (1 + redundant)
-
-    Returns a list of (chromosome, fitness_score) pairs.
-    """
-    # ── Pass 1: collect each chromosome's category set ──────────
+    #  Pass 1: collect each chromosome's category set 
     chrom_cats = [get_category(*chrom) for chrom in population]
 
-    # ── Pass 2: score each chromosome ───────────────────────────
+    #  Pass 2: score each chromosome 
     covered_globally = set()   # accumulates as we walk the population
     results = []
 
@@ -263,9 +187,7 @@ def fitness_function(population):
     return results
 
 
-# ============================================================
-# SECTION 5 — POPULATION INITIALISATION
-# ============================================================
+# POPULATION INITIALISATION
 
 POPULATION_SIZE = 60   # size of each generation
 
@@ -280,7 +202,7 @@ def initialize_population(size=POPULATION_SIZE):
       - Fill the remaining slots with purely random chromosomes
         (day ∈ [1-31], month ∈ [1-12], year ∈ [0-9999]).
     """
-    # ── Hand-crafted seeds ───────────────────────────────────────
+    #  Hand-crafted seeds 
     seeds = [
         (1,  1,  0),      # Boundary_MinYear  + Boundary_Day1 + Boundary_Month1
         (31, 12, 9999),   # Boundary_MaxYear  + Boundary_Day31 + Boundary_Month12 + Valid_31DayMonth
@@ -297,32 +219,16 @@ def initialize_population(size=POPULATION_SIZE):
     ]
     population = list(seeds)
 
-    # ── Random fill ──────────────────────────────────────────────
+    #  Random fill 
     while len(population) < size:
         population.append(random_chromosome())
 
     return population[:size]
 
 
-# ============================================================
-# SECTION 6 — SELECTION  (Rank-Based)
-# ============================================================
+# SELECTION  (Rank-Based)
 
 def rank_based_selection(population, fitness_scores, num_parents):
-    """
-    Rank-Based Selection (as specified in the assignment).
-
-    Steps:
-      1. Sort individuals by fitness in ascending order
-         → worst gets rank 1, best gets rank n.
-      2. Assign selection probability proportional to rank weight:
-         probability[i] = rank[i] / sum(all ranks)
-      3. Draw `num_parents` individuals using weighted random sampling.
-
-    Higher-fitness individuals get higher rank → higher selection
-    probability, but even low-fitness individuals retain a small
-    non-zero chance (avoids total loss of diversity).
-    """
     # Pair each chromosome with its fitness, sort ascending (rank 1 = worst)
     paired = sorted(zip(population, fitness_scores), key=lambda x: x[1])
     n      = len(paired)
@@ -348,24 +254,13 @@ def rank_based_selection(population, fitness_scores, num_parents):
     return selected
 
 
-# ============================================================
-# SECTION 7 — CROSSOVER  (Segment Swap)
-# ============================================================
+# CROSSOVER  (Segment Swap)
 
 def crossover(parent1, parent2):
-    """
-    Segment-swap crossover as specified in the assignment.
+     # Segment-swap crossover as specified in the assignment.
 
-    child1 inherits DAY from parent1, MONTH+YEAR from parent2.
-    child2 inherits DAY from parent2, MONTH+YEAR from parent1.
-
-    This mirrors the natural structure of a date: each component
-    (day, month, year) is a meaningful, independently variable segment.
-
-    Example:
-      parent1 = (29, 02, 2020)   parent2 = (31, 12, 9999)
-      child1  = (29, 12, 9999)   child2  = (31, 02, 2020)
-    """
+    #child1 inherits DAY from parent1, MONTH+YEAR from parent2.
+    #child2 inherits DAY from parent2, MONTH+YEAR from parent1.
     d1, m1, y1 = parent1
     d2, m2, y2 = parent2
 
@@ -375,38 +270,30 @@ def crossover(parent1, parent2):
     return child1, child2
 
 
-# ============================================================
-# SECTION 8 — MUTATION
-# ============================================================
+# MUTATION
 
-MUTATION_RATE = 0.15   # 15% per component as specified in assignment
+MUTATION_RATE = 0.15   # 15% per component 
 
 def mutate(chrom):
-    """
-    Perturb chromosome components with 15% probability each.
+    # Perturb chromosome components with 15% probability each.
 
-    Perturbation amounts (as specified in the assignment):
-      day   ± 3    — crosses day-boundary edges (e.g. 28→31→32)
-      month ± 1    — crosses month-category edges (e.g. 12→13 invalid)
-      year  ± 100  — crosses leap-century edges (e.g. 1900, 2000)
+      #day   ± 3    — crosses day-boundary edges (e.g. 28→31→32)
+      #month ± 1    — crosses month-category edges (e.g. 12→13 invalid)
+      #year  ± 100  — crosses leap-century edges (e.g. 1900, 2000)
 
-    Clamping ranges are intentionally wider than [1-31]/[1-12]/[0-9999]
-    to allow invalid-category chromosomes (e.g. day=0, month=13) to
-    be represented and discovered by the GA.
-    """
     day, month, year = chrom
 
-    # ── Mutate day (15% chance) ──────────────────────────────────
+    #  Mutate day (15% chance) 
     if random.random() < MUTATION_RATE:
         day = day + random.choice([-3, -2, -1, 1, 2, 3])
         day = max(0, min(35, day))     # allow 0 (DayZero) and 32-35 (DayOver31)
 
-    # ── Mutate month (15% chance) ────────────────────────────────
+    #  Mutate month (15% chance) 
     if random.random() < MUTATION_RATE:
         month = month + random.choice([-1, 1])
         month = max(0, min(14, month)) # allow 0 (MonthZero) and 13+ (MonthOver12)
 
-    # ── Mutate year (15% chance) ─────────────────────────────────
+    #  Mutate year (15% chance) 
     if random.random() < MUTATION_RATE:
         year = year + random.choice([-100, 100])
         year = max(0, min(9999, year)) # stay within valid year range
@@ -414,19 +301,10 @@ def mutate(chrom):
     return (day, month, year)
 
 
-# ============================================================
-# SECTION 9 — COVERAGE CALCULATION
-# ============================================================
+# COVERAGE CALCULATION
 
 def compute_coverage(population):
-    """
-    Compute how many of the 18 target categories are covered
-    by at least one chromosome in `population`.
-
-    Returns:
-      covered_set  : set of covered category labels
-      coverage_pct : percentage of total categories covered (0–100)
-    """
+    # Compute how many of the 18 target categories are covered by at least one chromosome in population
     covered = set()
     for chrom in population:
         covered.update(get_category(*chrom))
@@ -438,44 +316,24 @@ def compute_coverage(population):
     return covered_target, coverage_pct
 
 
-# ============================================================
-# SECTION 10 — MAIN GENETIC ALGORITHM LOOP
-# ============================================================
+# MAIN GENETIC ALGORITHM LOOP
 
 MAX_GENERATIONS = 100    # stop after this many generations
 COVERAGE_GOAL   = 95.0   # stop early when coverage reaches 95%
 ELITISM_COUNT   = 5      # carry this many elite chromosomes each generation
 
 def run_ga():
-    """
-    Execute the Genetic Algorithm.
-
-    Each generation:
-      1. Evaluate fitness for every chromosome.
-      2. Compute population coverage; check termination.
-      3. Preserve top ELITISM_COUNT chromosomes (elitism).
-      4. Rank-based selection of parents.
-      5. Segment-swap crossover to produce offspring.
-      6. Apply 15% mutation to all offspring.
-      7. Form next generation = elites + mutated offspring.
-
-    Returns:
-      final_population : last evolved population
-      coverage_history : list of coverage % per generation (for graph)
-      generations_run  : number of generations actually executed
-      best_coverage    : final coverage percentage
-    """
-    # ── Initialise ───────────────────────────────────────────────
+    #  Initialise 
     population       = initialize_population(POPULATION_SIZE)
     coverage_history = []
 
     for generation in range(1, MAX_GENERATIONS + 1):
 
-        # ── Step 1: Evaluate fitness ─────────────────────────────
+        #  Step 1: Evaluate fitness 
         fit_results    = fitness_function(population)
         fitness_scores = [score for _, score in fit_results]
 
-        # ── Step 2: Record coverage and check termination ────────
+        #  Step 2: Record coverage and check termination 
         covered, cov_pct = compute_coverage(population)
         coverage_history.append(round(cov_pct, 2))
 
@@ -483,17 +341,17 @@ def run_ga():
             print(f"  [GA] 95% coverage achieved at generation {generation}.")
             break
 
-        # ── Step 3: Elitism — preserve best chromosomes ──────────
+        #  Step 3: Elitism — preserve best chromosomes 
         # Sort by fitness descending; keep top ELITISM_COUNT
         paired_sorted = sorted(zip(population, fitness_scores),
                                key=lambda x: x[1], reverse=True)
         elites = [chrom for chrom, _ in paired_sorted[:ELITISM_COUNT]]
 
-        # ── Step 4: Rank-based selection ─────────────────────────
+        #  Step 4: Rank-based selection 
         num_parents = POPULATION_SIZE - ELITISM_COUNT
         parents     = rank_based_selection(population, fitness_scores, num_parents)
 
-        # ── Step 5: Crossover ────────────────────────────────────
+        #  Step 5: Crossover 
         offspring = []
         random.shuffle(parents)
         for i in range(0, len(parents) - 1, 2):
@@ -504,53 +362,25 @@ def run_ga():
         if len(parents) % 2 == 1:
             offspring.append(parents[-1])
 
-        # ── Step 6: Mutation ─────────────────────────────────────
+        #  Step 6: Mutation 
         offspring = [mutate(c) for c in offspring]
 
-        # ── Step 7: Form next generation ─────────────────────────
+        #  Step 7: Form next generation 
         population = elites + offspring[:POPULATION_SIZE - ELITISM_COUNT]
 
-    # ── Final coverage ───────────────────────────────────────────
+    #  Final coverage 
     covered, best_coverage = compute_coverage(population)
     generations_run        = len(coverage_history)
 
     return population, coverage_history, generations_run, best_coverage
 
 
-# ============================================================
-# SECTION 11 — POST-PROCESSING: SELECT BEST TEST CASES
-# ============================================================
+# SELECT BEST TEST CASES
 
 def select_best_test_cases(population):
-    """
-    Extract the best test cases from the evolved population and
-    guarantee meeting all assignment constraints:
-      - At least 10 DISTINCT valid test cases
-      - At least 10 DISTINCT invalid test cases  (no duplicate dates;
-        at most 2 examples of the same category type)
-      - At least 5 DISTINCT boundary cases  (all must be VALID dates
-        at extreme boundary values, per assignment examples)
-
-    Strategy:
-      1. Classify every evolved chromosome into valid/invalid/boundary.
-      2. Prepend mandatory seed cases (one per target category) so they
-         are prioritised by the diversity filter.
-      3. Apply build_diverse_list() which deduplicates by date string
-         and limits how many times the same primary category appears.
-    """
-
-    # ── Inner helper: deduplicate + enforce category diversity ────
+    #  Inner helper: deduplicate + enforce category diversity 
     def build_diverse_list(candidates, max_per_cat):
-        """
-        Return a deduplicated, category-diverse subset of candidates.
-
-        Rules:
-          - Skip any date string already seen (no duplicates).
-          - The primary category of an entry is its first non-Boundary
-            label (or the first label if all are Boundary).
-          - Skip any entry whose primary category already appears
-            max_per_cat times in the result.
-        """
+        # Return a deduplicated, category-diverse subset of candidates.
         seen_dates = set()
         cat_counts = {}
         result     = []
@@ -574,7 +404,7 @@ def select_best_test_cases(population):
 
         return result
 
-    # ── Helper: build an entry dict from a chromosome ────────────
+    #  Helper: build an entry dict from a chromosome 
     def make_entry(chrom):
         d, m, y  = chrom
         ds       = chromosome_to_str(chrom)
@@ -583,7 +413,7 @@ def select_best_test_cases(population):
         return {"date": ds, "categories": cats, "valid": is_valid,
                 "day": d, "month": m, "year": y}
 
-    # ── Pass 1: classify evolved chromosomes ─────────────────────
+    #  classify evolved chromosomes 
     raw_valid    = []
     raw_invalid  = []
     raw_boundary = []
@@ -602,9 +432,8 @@ def select_best_test_cases(population):
         else:
             raw_invalid.append(entry)
 
-    # ── Pass 2: prepend mandatory cases so they win priority ──────
 
-    # Mandatory boundary cases (assignment-specified examples first)
+    #  boundary cases 
     mandatory_boundaries = [
         (31, 12, 9999),   # Max Date  — assignment example
         (1,  1,  0),      # Min Date  — assignment example
@@ -623,7 +452,7 @@ def select_best_test_cases(population):
             else:
                 raw_invalid.insert(0, entry)
 
-    # Mandatory invalid cases — one per distinct invalid category
+    # invalid cases (one per distinct invalid category)
     mandatory_invalids = [
         (31, 4,  2023),   # Invalid_Day31In30DayMonth  (April)
         (13, 15, 2023),   # Invalid_MonthOver12
@@ -643,7 +472,7 @@ def select_best_test_cases(population):
             raw_invalid.insert(0, entry)        # prepend for priority
             invalid_dates.add(entry["date"])
 
-    # Mandatory valid cases — one per distinct valid category
+    # valid cases (one per distinct valid category)
     mandatory_valids = [
         (29, 2,  2020),   # Valid_LeapYear
         (29, 2,  2000),   # Valid_LeapYear  (div by 400)
@@ -663,7 +492,7 @@ def select_best_test_cases(population):
             raw_valid.insert(0, entry)          # prepend for priority
             valid_dates.add(entry["date"])
 
-    # ── Pass 3: deduplicate and enforce diversity ─────────────────
+    #  duplicate and enforce diversity 
     # Valid  : up to 3 per category (5 categories × ~2 = ≥10 total)
     valid_cases    = build_diverse_list(raw_valid,    max_per_cat=3)
     # Invalid: up to 2 per category (7 categories × 2 = 14 ≥ 10 total)
@@ -674,9 +503,7 @@ def select_best_test_cases(population):
     return valid_cases, invalid_cases, boundary_cases
 
 
-# ============================================================
-# SECTION 12 — OUTPUT PRINTING
-# ============================================================
+# OUTPUT PRINTING
 
 def print_output(valid_cases, invalid_cases, boundary_cases,
                  coverage_pct, generations_run):
@@ -708,9 +535,7 @@ def print_output(valid_cases, invalid_cases, boundary_cases,
     print("=" * 65)
 
 
-# ============================================================
-# SECTION 13 — EXPORT (CSV, JSON, COVERAGE HISTORY)
-# ============================================================
+#  EXPORT (CSV, JSON, COVERAGE HISTORY)
 
 def export_csv(valid_cases, invalid_cases, boundary_cases, filepath):
     """
@@ -788,15 +613,13 @@ def export_coverage_history(coverage_history, filepath):
     print(f"  [CSV] Coverage history saved → {filepath}")
 
 
-# ============================================================
 # SECTION 14 — ENTRY POINT
-# ============================================================
 
 if __name__ == "__main__":
     # Fix random seed for reproducibility
     random.seed(42)
 
-    # ── Print configuration ──────────────────────────────────────
+    #  Print configuration 
     print("Running Genetic Algorithm for Date Test Case Generation...")
     print(f"Population Size   : {POPULATION_SIZE}")
     print(f"Max Generations   : {MAX_GENERATIONS}")
@@ -805,23 +628,23 @@ if __name__ == "__main__":
     print(f"Target Categories : {TOTAL_CATEGORIES}")
     print("-" * 65)
 
-    # ── Run GA ───────────────────────────────────────────────────
+    #  Run GA 
     final_pop, cov_history, gen_count, final_coverage = run_ga()
 
-    # ── Select best test cases from evolved population ───────────
+    #  Select best test cases from evolved population 
     valid_tc, invalid_tc, boundary_tc = select_best_test_cases(final_pop)
 
-    # ── Recompute coverage including all mandatory seed cases ─────
+    #  Recompute coverage including all mandatory seed cases 
     all_chroms = [
         (int(tc["date"][:2]), int(tc["date"][3:5]), int(tc["date"][6:]))
         for tc in valid_tc + invalid_tc + boundary_tc
     ]
     covered_final, final_cov_pct = compute_coverage(all_chroms)
 
-    # ── Print output (assignment format) ─────────────────────────
+    #  Print output (assignment format) 
     print_output(valid_tc, invalid_tc, boundary_tc, final_cov_pct, gen_count)
 
-    # ── Export files ─────────────────────────────────────────────
+    #  Export files 
     print("\nExporting test cases...")
     export_csv(valid_tc, invalid_tc, boundary_tc, "test_cases.csv")
     export_json(valid_tc, invalid_tc, boundary_tc, "test_cases.json")
