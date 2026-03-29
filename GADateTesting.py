@@ -178,7 +178,7 @@ def fitness_function(population):
         redundant      = len(cat_set) - len(new_cats)     # already-seen categories
         unique_covered = len(new_cats)
 
-        # Exact formula from assignment
+        # formula
         fitness_val = unique_covered / (1 + redundant)
 
         covered_globally.update(cat_set)                   # mark all as seen
@@ -257,7 +257,7 @@ def rank_based_selection(population, fitness_scores, num_parents):
 # CROSSOVER  (Segment Swap)
 
 def crossover(parent1, parent2):
-     # Segment-swap crossover as specified in the assignment.
+     # Segment-swap crossover
 
     #child1 inherits DAY from parent1, MONTH+YEAR from parent2.
     #child2 inherits DAY from parent2, MONTH+YEAR from parent1.
@@ -422,7 +422,7 @@ def select_best_test_cases(population):
         entry    = make_entry(chrom)
         is_valid = entry["valid"]
         # Boundary cases must be VALID calendar dates at extreme values
-        # (matches assignment examples: 31/12/9999, 01/01/0000, 29/02/2020)
+        # (examples: 31/12/9999, 01/01/0000, 29/02/2020)
         is_bound = any(c.startswith("Boundary_") for c in entry["categories"]) and is_valid
 
         if is_bound:
@@ -435,9 +435,9 @@ def select_best_test_cases(population):
 
     #  boundary cases 
     mandatory_boundaries = [
-        (31, 12, 9999),   # Max Date  — assignment example
-        (1,  1,  0),      # Min Date  — assignment example
-        (29, 2,  2020),   # Leap year boundary — assignment example
+        (31, 12, 9999),   # Max Date  
+        (1,  1,  0),      # Min Date  
+        (29, 2,  2020),   # Leap year boundary 
         (1,  1,  2023),   # day = 1 boundary
         (31, 12, 2023),   # month = 12 boundary
     ]
@@ -463,7 +463,7 @@ def select_best_test_cases(population):
         (31, 6,  2023),   # Invalid_Day31In30DayMonth  (June)
         (0,  5,  2023),   # Invalid_DayZero
         (15, 0,  2023),   # Invalid_MonthZero
-        (35, 3,  2023),   # Invalid_DayOver31  (second example)
+        (35, 3,  2023),   # Invalid_DayOver31 
     ]
     invalid_dates = {e["date"] for e in raw_invalid}
     for chrom in mandatory_invalids:
@@ -507,10 +507,7 @@ def select_best_test_cases(population):
 
 def print_output(valid_cases, invalid_cases, boundary_cases,
                  coverage_pct, generations_run):
-    """
-    Print best-evolved test cases, their categories, and coverage
-    in the format shown in the assignment example output.
-    """
+    #Print best-evolved test cases, their categories, and coverage
     print("\n" + "=" * 65)
     print("Best Test Cases:")
     print("=" * 65)
@@ -641,7 +638,7 @@ if __name__ == "__main__":
     ]
     covered_final, final_cov_pct = compute_coverage(all_chroms)
 
-    #  Print output (assignment format) 
+    #  Print output 
     print_output(valid_tc, invalid_tc, boundary_tc, final_cov_pct, gen_count)
 
     #  Export files 
@@ -740,7 +737,7 @@ if __name__ == "__main__":
     ]
     covered_final, final_cov_pct = compute_coverage(all_chroms)
  
-    #  Print output (assignment format) 
+    #  Print output 
     print_output(valid_tc, invalid_tc, boundary_tc, final_cov_pct, gen_count)
  
     #  Run Random Testing baseline (continues from same RNG state as GA) 
