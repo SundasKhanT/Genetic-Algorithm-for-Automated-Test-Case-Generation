@@ -651,3 +651,115 @@ if __name__ == "__main__":
     export_coverage_history(cov_history, "coverage_history.csv")
 
     print("\nDone. All files generated.")
+
+    # RANDOM TESTING BASELINE
+# Pure random generation — no fitness, selection, or crossover.
+# Used to compare GA efficiency vs. random testing.
+
+
+
+RANDOM_SAMPLE_SIZE = 100   # number of random samples to generate
+ 
+def run_random_testing(num_samples=RANDOM_SAMPLE_SIZE):
+    """
+    Generate test cases one at a time using pure random sampling.
+    Same chromosome ranges as GA: day[1-31], month[1-12], year[0-9999].
+    Track cumulative coverage after every sample.
+    Returns coverage history list and final coverage percentage.
+    """
+    random_pool    = []   # all generated chromosomes so far
+    random_history = []   # coverage % recorded after each new sample
+ 
+    print(f"\n  [Random] Running {num_samples} random samples for baseline...")
+ 
+    for _ in range(num_samples):
+        # Generate one random chromosome — same ranges as GA
+        day   = random.randint(1, 31)
+        month = random.randint(1, 12)
+        year  = random.randint(0, 9999)
+        random_pool.append((day, month, year))
+ 
+        # Compute cumulative coverage after adding this sample
+        _, cov_pct = compute_coverage(random_pool)
+        random_history.append(round(cov_pct, 2))
+ 
+    _, final_cov = compute_coverage(random_pool)
+    cats_covered = int(final_cov * TOTAL_CATEGORIES / 100)
+ 
+    print(f"  [Random] Final coverage: {final_cov:.2f}%  "
+          f"({cats_covered}/{TOTAL_CATEGORIES} categories)")
+ 
+    return random_history, final_cov
+ 
+ 
+def export_comparison_csv(ga_history, random_history, filepath):
+    """
+    Export GA vs. Random Testing coverage side-by-side to CSV.
+    GA coverage is held at its final value after it terminates.
+    """
+    num_rows = max(len(ga_history), len(random_history))
+    ga_final = ga_history[-1]
+ 
+    with open(filepath, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Sample_Number", "GA_Coverage_Pct", "Random_Coverage_Pct"])
+        for i in range(num_rows):
+            ga_cov   = ga_history[i]     if i < len(ga_history)     else ga_final
+            rand_cov = random_history[i] if i < len(random_history) else random_history[-1]
+            writer.writerow([i + 1, ga_cov, rand_cov])
+ 
+    print(f"  [CSV] Comparison history saved → {filepath}")
+ 
+ 
+
+# ENTRY POINT
+ 
+if __name__ == "__main__":
+    # Fix random seed for reproducibility
+    random.seed(42)
+ 
+    #  Print configuration 
+    print("Running Genetic Algorithm for Date Test Case Generation...")
+    print(f"Population Size   : {POPULATION_SIZE}")
+    print(f"Max Generations   : {MAX_GENERATIONS}")
+    print(f"Mutation Rate     : {MUTATION_RATE * 100:.0f}%")
+    print(f"Coverage Goal     : {COVERAGE_GOAL}%")
+    print(f"Target Categories : {TOTAL_CATEGORIES}")
+    print("-" * 65)
+ 
+    #  Run GA 
+    final_pop, cov_history, gen_count, final_coverage = run_ga()
+ 
+    #  Select best test cases from evolved population 
+    valid_tc, invalid_tc, boundary_tc = select_best_test_cases(final_pop)
+ 
+    #  Recompute coverage including all mandatory seed cases 
+    all_chroms = [
+        (int(tc["date"][:2]), int(tc["date"][3:5]), int(tc["date"][6:]))
+        for tc in valid_tc + invalid_tc + boundary_tc
+    ]
+    covered_final, final_cov_pct = compute_coverage(all_chroms)
+ 
+    #  Print output (assignment format) 
+    print_output(valid_tc, invalid_tc, boundary_tc, final_cov_pct, gen_count)
+ 
+    #  Run Random Testing baseline (continues from same RNG state as GA) 
+    random_history, rand_final_cov = run_random_testing(RANDOM_SAMPLE_SIZE)
+ 
+    #  Print comparison summary 
+    print("\n" + "=" * 65)
+    print("GA vs. Random Testing Summary:")
+    print("=" * 65)
+    print(f"  GA     — Coverage: {final_cov_pct:.0f}%   Generations: {gen_count}")
+    print(f"  Random — Coverage: {rand_final_cov:.2f}%  Samples: {RANDOM_SAMPLE_SIZE}")
+    print(f"  GA advantage: {final_cov_pct - rand_final_cov:.2f}% more coverage")
+    print("=" * 65)
+ 
+    #  Export files 
+    print("\nExporting test cases...")
+    export_csv(valid_tc, invalid_tc, boundary_tc, "test_cases.csv")
+    export_json(valid_tc, invalid_tc, boundary_tc, "test_cases.json")
+    export_coverage_history(cov_history, "coverage_history.csv")
+    export_comparison_csv(cov_history, random_history, "comparison_history.csv")
+ 
+    print("\nDone. All files generated.")

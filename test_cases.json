@@ -15,16 +15,16 @@
     {
       "date": "31/03/2023",
       "categories": [
-        "Valid_31DayMonth",
-        "Boundary_Day31"
+        "Boundary_Day31",
+        "Valid_31DayMonth"
       ]
     },
     {
       "date": "31/01/2023",
       "categories": [
-        "Valid_31DayMonth",
         "Boundary_Day31",
-        "Boundary_Month1"
+        "Boundary_Month1",
+        "Valid_31DayMonth"
       ]
     },
     {
@@ -54,17 +54,17 @@
     {
       "date": "31/12/2023",
       "categories": [
-        "Boundary_Month12",
+        "Boundary_Day31",
         "Valid_31DayMonth",
-        "Boundary_Day31"
+        "Boundary_Month12"
       ]
     },
     {
       "date": "01/01/2023",
       "categories": [
         "Valid_General",
-        "Boundary_Day1",
-        "Boundary_Month1"
+        "Boundary_Month1",
+        "Boundary_Day1"
       ]
     },
     {
@@ -177,17 +177,17 @@
     {
       "date": "31/12/2023",
       "categories": [
-        "Boundary_Month12",
+        "Boundary_Day31",
         "Valid_31DayMonth",
-        "Boundary_Day31"
+        "Boundary_Month12"
       ]
     },
     {
       "date": "01/01/2023",
       "categories": [
         "Valid_General",
-        "Boundary_Day1",
-        "Boundary_Month1"
+        "Boundary_Month1",
+        "Boundary_Day1"
       ]
     },
     {
@@ -199,42 +199,42 @@
     {
       "date": "01/01/0000",
       "categories": [
-        "Boundary_MinYear",
         "Valid_General",
-        "Boundary_Day1",
-        "Boundary_Month1"
+        "Boundary_MinYear",
+        "Boundary_Month1",
+        "Boundary_Day1"
       ]
     },
     {
       "date": "31/12/9999",
       "categories": [
-        "Boundary_Month12",
+        "Boundary_Day31",
         "Valid_31DayMonth",
         "Boundary_MaxYear",
-        "Boundary_Day31"
+        "Boundary_Month12"
       ]
     },
     {
       "date": "28/12/9999",
       "categories": [
         "Boundary_Month12",
-        "Boundary_MaxYear",
-        "Valid_General"
+        "Valid_General",
+        "Boundary_MaxYear"
       ]
     },
     {
       "date": "28/01/2021",
       "categories": [
-        "Valid_General",
-        "Boundary_Month1"
+        "Boundary_Month1",
+        "Valid_General"
       ]
     },
     {
       "date": "30/12/9999",
       "categories": [
         "Boundary_Month12",
-        "Boundary_MaxYear",
-        "Valid_General"
+        "Valid_General",
+        "Boundary_MaxYear"
       ]
     },
     {
@@ -247,29 +247,29 @@
     {
       "date": "29/11/9999",
       "categories": [
-        "Valid_30DayMonth",
-        "Boundary_MaxYear"
+        "Boundary_MaxYear",
+        "Valid_30DayMonth"
       ]
     },
     {
       "date": "31/03/2020",
       "categories": [
-        "Valid_31DayMonth",
-        "Boundary_Day31"
+        "Boundary_Day31",
+        "Valid_31DayMonth"
       ]
     },
     {
       "date": "30/01/1820",
       "categories": [
-        "Valid_General",
-        "Boundary_Month1"
+        "Boundary_Month1",
+        "Valid_General"
       ]
     },
     {
       "date": "26/01/1820",
       "categories": [
-        "Valid_General",
-        "Boundary_Month1"
+        "Boundary_Month1",
+        "Valid_General"
       ]
     }
   ]

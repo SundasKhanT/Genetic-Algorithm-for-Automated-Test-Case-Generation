@@ -1,14 +1,14 @@
 date,type,categories,is_valid
 10/08/2023,Valid,Valid_General,True
 15/05/2023,Valid,Valid_General,True
-31/03/2023,Valid,Valid_31DayMonth; Boundary_Day31,True
-31/01/2023,Valid,Valid_31DayMonth; Boundary_Day31; Boundary_Month1,True
+31/03/2023,Valid,Boundary_Day31; Valid_31DayMonth,True
+31/01/2023,Valid,Boundary_Day31; Boundary_Month1; Valid_31DayMonth,True
 30/06/2023,Valid,Valid_30DayMonth,True
 30/04/2023,Valid,Valid_30DayMonth,True
 28/02/1900,Valid,Valid_February_NonLeap,True
 29/02/2000,Valid,Valid_LeapYear,True
-31/12/2023,Valid,Boundary_Month12; Valid_31DayMonth; Boundary_Day31,True
-01/01/2023,Valid,Valid_General; Boundary_Day1; Boundary_Month1,True
+31/12/2023,Valid,Boundary_Day31; Valid_31DayMonth; Boundary_Month12,True
+01/01/2023,Valid,Valid_General; Boundary_Month1; Boundary_Day1,True
 29/02/2020,Valid,Valid_LeapYear,True
 28/02/2023,Valid,Valid_February_NonLeap,True
 27/04/2023,Valid,Valid_30DayMonth,True
@@ -26,13 +26,13 @@ date,type,categories,is_valid
 00/03/2020,Invalid,Invalid_DayZero,False
 29/13/6816,Invalid,Invalid_MonthOver12,False
 30/00/0000,Invalid,Invalid_MonthZero; Boundary_MinYear,False
-01/01/0000,Boundary,Boundary_MinYear; Valid_General; Boundary_Day1; Boundary_Month1,True
-31/12/9999,Boundary,Boundary_Month12; Valid_31DayMonth; Boundary_MaxYear; Boundary_Day31,True
-28/12/9999,Boundary,Boundary_Month12; Boundary_MaxYear; Valid_General,True
-28/01/2021,Boundary,Valid_General; Boundary_Month1,True
-30/12/9999,Boundary,Boundary_Month12; Boundary_MaxYear; Valid_General,True
+01/01/0000,Boundary,Valid_General; Boundary_MinYear; Boundary_Month1; Boundary_Day1,True
+31/12/9999,Boundary,Boundary_Day31; Valid_31DayMonth; Boundary_MaxYear; Boundary_Month12,True
+28/12/9999,Boundary,Boundary_Month12; Valid_General; Boundary_MaxYear,True
+28/01/2021,Boundary,Boundary_Month1; Valid_General,True
+30/12/9999,Boundary,Boundary_Month12; Valid_General; Boundary_MaxYear,True
 30/12/9899,Boundary,Boundary_Month12; Valid_General,True
-29/11/9999,Boundary,Valid_30DayMonth; Boundary_MaxYear,True
-31/03/2020,Boundary,Valid_31DayMonth; Boundary_Day31,True
-30/01/1820,Boundary,Valid_General; Boundary_Month1,True
-26/01/1820,Boundary,Valid_General; Boundary_Month1,True
+29/11/9999,Boundary,Boundary_MaxYear; Valid_30DayMonth,True
+31/03/2020,Boundary,Boundary_Day31; Valid_31DayMonth,True
+30/01/1820,Boundary,Boundary_Month1; Valid_General,True
+26/01/1820,Boundary,Boundary_Month1; Valid_General,True
